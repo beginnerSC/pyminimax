@@ -1,7 +1,0 @@
-tasks:
-  - init: pip3 install -r requirements.txt
-    command: python3 src/pyminimax.py
-vscode:
-  extensions:
-    - ms-python.python@2020.10.332292344:5ctthQ25Qni5/aAuOIUTYQ==
-    - webfreak.debug@0.25.0:17db8ba4039d7baaf497bae0302f0b4d
