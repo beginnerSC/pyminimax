@@ -48,7 +48,7 @@ def label(Z, n):
         else:
             Z[i, 0], Z[i, 1] = y_root, x_root
         Z[i, 3] = uf.merge(x_root, y_root)
-        
+
 
 
 def condensed_index(n, i, j):
@@ -61,7 +61,7 @@ def condensed_index(n, i, j):
     elif i > j:
         return int(round(n * j - (j * (j + 1) / 2) + (i - j - 1)))
 
-    
+
 # def nn_chain(dists, n, method):
 def minimax(dists):
     """Perform hierarchy clustering using nearest-neighbor chain algorithm.
@@ -75,13 +75,13 @@ def minimax(dists):
         Computed linkage matrix.
     """
     n = int((np.sqrt(8*len(dists) + 1) + 1)/2)
-    
+
     Z_arr = np.empty((n - 1, 4))
     Z = Z_arr
 
     D = dists.copy()  # Distances between clusters.
     size = np.ones(n, dtype=np.intc)  # Sizes of clusters.
-    
+
     indices = [set([i]) for i in range(n)]
 
 #     new_dist = linkage_methods[method]
@@ -116,7 +116,7 @@ def minimax(dists):
             for i in range(n):
                 if size[i] == 0 or x == i:
                     continue
-                
+
                 dist = D[condensed_index(n, x, i)]
                 if dist < current_min:
                     current_min = dist
@@ -155,27 +155,11 @@ def minimax(dists):
             ni = size[i]
             if ni == 0 or i == y:
                 continue
-                
-            D[condensed_index(n, i, y)] = max(D[condensed_index(n, i, x)], D[condensed_index(n, i, y)])  # complete linkage
 
-            # all_indices = indices[y] | indices[i]
-            # max_idx = max(all_indices)
+            # D[condensed_index(n, i, y)] = max(D[condensed_index(n, i, x)], D[condensed_index(n, i, y)])  # complete linkage
 
-            # mm = [[dists[condensed_index(n, j, k)] for k in all_indices if j < k] for j in all_indices - {max_idx}]
-            
-            # for row in mm:
-            #     print(row)
-            # print(y, i, min(max(dists[condensed_index(n, j, k)] for k in all_indices if j < k) for j in all_indices - {max_idx}))
-            # print()
-
-            # D[condensed_index(n, i, y)] = min(max(dists[condensed_index(n, j, k)] for k in all_indices if j < k) for j in all_indices - {max_idx})
-
-            aaa = 1
-            
-            # 要 implement minimax 需要知道 x y 裡各有哪些原本資料點的 index，
-            # 原本的 distance matrix 要從 dists 裡拿，因為 D 裡的值會一直被覆蓋過去
-
-            # watch D matrix: [[(i, j, D[condensed_index(12, i, j)]) for j in range(12) if i>j] for i in range(12)]
+            all_indices = indices[y] | indices[i]
+            D[condensed_index(n, i, y)] = min(max(dists[condensed_index(n, j, k)] if j!=k else 0 for k in all_indices) for j in all_indices)  # minimax linkage, 實測先抄到 np.array 再取 minmax 反而更慢
 
     # Sort Z by cluster distances.
     order = np.argsort(Z_arr[:, 2], kind='mergesort')
@@ -187,13 +171,12 @@ def minimax(dists):
     return Z_arr
 
 
-if __name__ == "__main__":
-    X = [[0, 0], [0, 1], [1, 0], [0, 4], [0, 3], [1, 4], [4, 0], [3, 0], [4, 1], [4, 4], [3, 4], [4, 3]]
-    Z = minimax(pdist(X))
+X = [[0, 0], [0, 1], [1, 0], [0, 4], [0, 3], [1, 4], [4, 0], [3, 0], [4, 1], [4, 4], [3, 4], [4, 3]]
+Z = minimax(pdist(X))
 
-    fig, ax = plt.subplots(1, 1, figsize=(5, 8))
-    hierarchy.dendrogram(Z, ax=ax, orientation='left')
-    ax.set(title='Dendrogram with Complete Linkage')
-    plt.show()
+fig, ax = plt.subplots(1, 1, figsize=(5, 8))
+hierarchy.dendrogram(Z, ax=ax, orientation='left')
+ax.set(title='Dendrogram with Complete Linkage')
+plt.show()
 
-    print(DataFrame(Z))
+print(DataFrame(Z))
