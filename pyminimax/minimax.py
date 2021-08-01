@@ -1,4 +1,3 @@
-import math
 import numpy as np
 import matplotlib.pyplot as plt
 from pandas import DataFrame
@@ -171,12 +170,13 @@ def minimax(dists):
     return Z_arr
 
 
-X = [[0, 0], [0, 1], [1, 0], [0, 4], [0, 3], [1, 4], [4, 0], [3, 0], [4, 1], [4, 4], [3, 4], [4, 3]]
-Z = minimax(pdist(X))
+if __name__ == "__main__":
+    X = [[0, 0], [0, 1], [1, 0], [0, 4], [0, 3], [1, 4], [4, 0], [3, 0], [4, 1], [4, 4], [3, 4], [4, 3]]
+    Z = minimax(pdist(X))
 
-fig, ax = plt.subplots(1, 1, figsize=(5, 8))
-hierarchy.dendrogram(Z, ax=ax, orientation='left')
-ax.set(title='Dendrogram with Complete Linkage')
-plt.show()
+    fig, ax = plt.subplots(1, 1, figsize=(5, 8))
+    hierarchy.dendrogram(Z, ax=ax, orientation='left')
+    ax.set(title='Dendrogram with Complete Linkage')
+    plt.show()
 
-print(DataFrame(Z))
+    print(DataFrame(Z))
