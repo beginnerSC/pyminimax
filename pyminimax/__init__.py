@@ -1,1 +1,1 @@
-from .minimax import minimax
+from ._minimax import minimax
