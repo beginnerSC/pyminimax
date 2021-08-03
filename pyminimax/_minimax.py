@@ -2,6 +2,7 @@ import numpy as np
 from itertools import combinations
 
 # Part of this script is from https://github.com/scipy/scipy/blob/master/scipy/cluster/_hierarchy.pyx
+# What's new is the key step updating D matrix in the nn chain algorithm, and a _minimax_brute_force function for testing purpose
 
 class LinkageUnionFind:
     """Structure for fast cluster labeling in unsorted dendrogram."""
