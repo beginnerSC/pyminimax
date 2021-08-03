@@ -15,7 +15,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
     - name: Clone repo
-    - uses: actions/checkout@v2
+      uses: actions/checkout@v2
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v1
       with:
@@ -33,7 +33,7 @@ jobs:
         pip install pytest-cov
         pip install scipy
         pytest -v tests/ --cov=exampy/
-    - name: "Upload coverage to Codecov"
+    - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         fail_ci_if_error: true
