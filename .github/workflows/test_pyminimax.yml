@@ -1,4 +1,4 @@
-name: Test exampy
+name: build
 on: [push, pull_request]
 jobs:
   build:
