@@ -4,6 +4,7 @@ from pandas import DataFrame
 from scipy.cluster import hierarchy
 from scipy.spatial.distance import pdist
 
+# Part of this script is from https://github.com/scipy/scipy/blob/master/scipy/cluster/_hierarchy.pyx
 
 class LinkageUnionFind:
     """Structure for fast cluster labeling in unsorted dendrogram."""
@@ -47,7 +48,6 @@ def label(Z, n):
         else:
             Z[i, 0], Z[i, 1] = y_root, x_root
         Z[i, 3] = uf.merge(x_root, y_root)
-
 
 
 def condensed_index(n, i, j):
@@ -168,6 +168,28 @@ def minimax(dists):
     label(Z_arr, n)
 
     return Z_arr
+
+
+def minimax_brute_force(dist):
+    n = int((np.sqrt(8*len(dist) + 1) + 1)/2)
+
+    def d(i, j): return dist[n*i+j-((i+2)*(i+1))//2] if i<j else (0 if i==j else d(j, i))
+    def r(i, G): return max(d(i, j) for j in G)
+
+    Z = []
+    clusters = {i: set([i]) for i in range(n)}
+    for i in range(n-1):
+        min_d = math.inf
+        for (idxG, G), (idxH, H) in combinations(clusters.items(), 2):
+            dminimax = min(r(x, G|H) for x in G|H)
+            if dminimax < min_d:
+                min_d = dminimax
+                to_merge = [idxG, idxH, dminimax, len(G|H)]
+        Z.append(to_merge)
+        idxG, idxH, _, _ = to_merge
+        clusters[n+i] = clusters.pop(idxG) | clusters.pop(idxH)
+
+    return Z
 
 
 if __name__ == "__main__":
