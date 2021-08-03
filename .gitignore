@@ -1,2 +1,3 @@
 .ipynb_checkpoints
+.coverage
 __pycache__
