@@ -1,8 +1,5 @@
 import numpy as np
-import matplotlib.pyplot as plt
-from pandas import DataFrame
-from scipy.cluster import hierarchy
-from scipy.spatial.distance import pdist
+from itertools import combinations
 
 # Part of this script is from https://github.com/scipy/scipy/blob/master/scipy/cluster/_hierarchy.pyx
 
@@ -170,16 +167,16 @@ def minimax(dists):
     return Z_arr
 
 
-def minimax_brute_force(dist):
-    n = int((np.sqrt(8*len(dist) + 1) + 1)/2)
+def _minimax_brute_force(dists):
+    n = int((np.sqrt(8*len(dists) + 1) + 1)/2)
 
-    def d(i, j): return dist[n*i+j-((i+2)*(i+1))//2] if i<j else (0 if i==j else d(j, i))
+    def d(i, j): return dists[n*i+j-((i+2)*(i+1))//2] if i<j else (0 if i==j else d(j, i))
     def r(i, G): return max(d(i, j) for j in G)
 
     Z = []
     clusters = {i: set([i]) for i in range(n)}
     for i in range(n-1):
-        min_d = math.inf
+        min_d = np.inf
         for (idxG, G), (idxH, H) in combinations(clusters.items(), 2):
             dminimax = min(r(x, G|H) for x in G|H)
             if dminimax < min_d:
@@ -190,15 +187,3 @@ def minimax_brute_force(dist):
         clusters[n+i] = clusters.pop(idxG) | clusters.pop(idxH)
 
     return Z
-
-
-if __name__ == "__main__":
-    X = [[0, 0], [0, 1], [1, 0], [0, 4], [0, 3], [1, 4], [4, 0], [3, 0], [4, 1], [4, 4], [3, 4], [4, 3]]
-    Z = minimax(pdist(X))
-
-    fig, ax = plt.subplots(1, 1, figsize=(5, 8))
-    hierarchy.dendrogram(Z, ax=ax, orientation='left')
-    ax.set(title='Dendrogram with Complete Linkage')
-    plt.show()
-
-    print(DataFrame(Z))
