@@ -36,4 +36,5 @@ jobs:
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
+        directory: ./coverage/reports/
         fail_ci_if_error: true
