@@ -154,11 +154,11 @@ def minimax(dists):
             ni = size[i]
             if ni == 0 or i == y:
                 continue
-
+                
             # D[condensed_index(n, i, y)] = max(D[condensed_index(n, i, x)], D[condensed_index(n, i, y)])  # complete linkage
-
+            
             all_indices = indices[y] | indices[i]
-            D[condensed_index(n, i, y)] = min(max(dists[condensed_index(n, j, k)] if j!=k else 0 for k in all_indices) for j in all_indices)  # minimax linkage, 實測先抄到 np.array 再取 minmax 反而更慢
+            D[condensed_index(n, i, y)] = min(max(dists[condensed_index(n, j, k)] if j!=k else 0 for k in all_indices) for j in all_indices)
 
     # Sort Z by cluster distances.
     order = np.argsort(Z_arr[:, 2], kind='mergesort')
