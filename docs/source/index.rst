@@ -11,6 +11,11 @@ Welcome to PyMinimax's documentation!
    :caption: Contents:
 
 
+API Reference
+-------------
+
+.. autofunction:: pyminimax.minimax
+
 
 Indices and tables
 ==================
