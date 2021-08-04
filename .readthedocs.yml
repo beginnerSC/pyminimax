@@ -1,11 +1,11 @@
 version: 2
-build:
-  image: latest
+
+sphinx:
+  configuration: docs/source/conf.py
+
 python:
   version: 3
   install:
-    - requirements: docs/source/requirements.txt
     - method: pip
       path: .
-  system_packages: true
-formats: all
+    - requirements: docs/requirements.txt

@@ -1,4 +1,0 @@
-docutils==0.16
-sphinx>=1.4
-nbsphinx
-sphinx-copybutton
