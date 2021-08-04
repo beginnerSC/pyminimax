@@ -1,7 +1,8 @@
 import numpy as np
 from itertools import combinations
 
-# Part of this script is from https://github.com/scipy/scipy/blob/master/scipy/cluster/_hierarchy.pyx
+# Part of this script is from scipy
+# See _hierarchy.pyx and hierarchy.py in https://github.com/scipy/scipy/blob/master/scipy/cluster/
 # What's new is the key step updating D matrix in the nn chain algorithm, and a _minimax_brute_force function for testing purpose
 
 class LinkageUnionFind:
