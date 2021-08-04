@@ -1,5 +1,3 @@
-# from nbsphinx
-
 version: 2
 build:
   image: latest
