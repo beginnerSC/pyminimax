@@ -6,7 +6,7 @@ build:
 python:
   version: 3
   install:
-    - requirements: requirements.txt
+    - requirements: docs/source/requirements.txt
     - method: pip
       path: .
   system_packages: true
