@@ -5,4 +5,4 @@ python:
     - method: pip
       path: .
     - requirements: requirements.txt
-formats: all
+  system_packages: true  
