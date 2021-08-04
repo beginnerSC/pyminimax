@@ -9,9 +9,3 @@ Welcome to PyMinimax's documentation!
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
-
-
-API Reference
--------------
-
-.. autofunction:: pyminimax.minimax
