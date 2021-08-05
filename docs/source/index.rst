@@ -3,7 +3,7 @@ Welcome to PyMinimax’s documentation!
 
 .. toctree:: :maxdepth: 1 :caption: Contents:
 
-Install
+Installation
 -------
 
 .. code:: ipython3
