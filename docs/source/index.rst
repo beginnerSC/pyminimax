@@ -10,14 +10,14 @@ We have made its API completely SciPy-compatible. Enjoy using it with SciPy!
 Installation
 -------
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     pip install pyminimax
 
 Usage
 -----
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     from pyminimax import minimax
     from pandas import DataFrame
@@ -141,7 +141,7 @@ Usage
 
 
 
-.. code:: ipython3
+.. code-block:: ipython3
 
     from scipy.cluster import hierarchy
     import matplotlib.pyplot as plt
