@@ -10,4 +10,4 @@ Welcome to PyMinimax's documentation!
    :maxdepth: 1
    :caption: Contents:
    
-   api
+   
