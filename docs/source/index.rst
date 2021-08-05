@@ -3,6 +3,10 @@ Welcome to PyMinimax’s documentation!
 
 .. toctree:: :maxdepth: 1 :caption: Contents:
 
+PyMinimax is a python implementation of the prototype clustering, or minimax linkage hierarchical clustering, which is a modern powerful hierarchical clustering method that's not currently available in SciPy. 
+The API of PyMinimax is completely SciPy compatible you can use it with SciPy. 
+
+
 Installation
 -------
 
