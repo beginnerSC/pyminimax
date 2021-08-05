@@ -1,15 +1,4 @@
-# RTD
-
 docutils==0.16
 sphinx>=1.4
 nbsphinx
 sphinx-copybutton
-
-# Gidpod
-
-numpy
-scipy
-pandas
-matplotlib
-pytest
-pytest-cov
