@@ -14,7 +14,7 @@ with open("README.md", "r") as f:
 
 setuptools.setup(
     name="pyminimax",
-    version="0.0.1",
+    version="0.0.3",
     author="BeginnerSC",
     description="Python implementation of minimax linkage in hierarchical clustering",
     long_description=long_description,
