@@ -26,7 +26,7 @@ data = [[0, 0], [0, 1], [1, 0], [0, 4], [0, 3], [1, 4], [4, 0], [3, 0], [4, 1], 
 dist = pdist(data)              # flattened distance matrix computed by scipy
 
 Z_complete = complete(dist)     # complete linkage result
-Z_minimax = minimax(dist)       # minimax linkage result
+Z_minimax = minimax(dist)       #  minimax linkage result
 ```
 
 There is only one function in PyMinimax, `pyminimax.minimax`, and its usage is exactly the same as the hierarchical clusterings in SciPy, say [scipy.cluster.hierarchy.complete](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.complete.html). See the [documentation](https://pyminimax.readthedocs.io/en/latest/) for more details and examples. 
