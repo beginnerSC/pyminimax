@@ -3,8 +3,8 @@ BSD 3-Clause License
 Copyright (c) 2021, BeginnerSC.
 All rights reserved.
 
-The part of the pyminimax repository and its source distribution 
-is from the SciPy library that is compatibly licensed.  
+Part of the pyminimax repository and its source distribution 
+is from the SciPy library which is compatibly licensed.  
 For details see pyminimax/_minimax.py
 
 Redistribution and use in source and binary forms, with or without
