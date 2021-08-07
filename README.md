@@ -7,7 +7,7 @@
 [![image](http://img.shields.io/pypi/v/pyminimax.svg)](https://pypi.python.org/pypi/pyminimax/)
 [![Downloads](https://pepy.tech/badge/pyminimax)](https://pepy.tech/project/pyminimax)
 [![Downloads](https://pepy.tech/badge/pyminimax/month)](https://pepy.tech/project/pyminimax)
-[![License](https://img.shields.io/badge/License-BSD%203--Clause-blue.svg)](https://github.com/beginnerSC/pyminimax/blob/master/LICENSE)
+[![License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://github.com/beginnerSC/pyminimax/blob/master/LICENSE)
 
 PyMinimax is a python package that performs minimax linkage hierarchical clustering. 
 
