@@ -13,7 +13,7 @@ PyMinimax is a python package that performs minimax linkage hierarchical cluster
 
 ## Installation
 
-```bash
+```sh
 pip install pyminimax
 ```    
 
