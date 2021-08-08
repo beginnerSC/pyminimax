@@ -12,3 +12,6 @@ def test_minimax():
     X = np.random.rand(20, 2)
     dists = pdist(X)
     assert_array_equal(minimax(dists), _minimax_brute_force(dists))
+
+if __name__ == "__main__":
+    test_minimax()
