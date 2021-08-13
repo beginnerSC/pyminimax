@@ -2,7 +2,7 @@ API Reference
 =============
 
 .. automodule:: pyminimax
-    :members:
+    :members: minimax
     :exclude-members: __version__
     :undoc-members:
     :show-inheritance:
