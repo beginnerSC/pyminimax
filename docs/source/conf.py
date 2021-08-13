@@ -17,6 +17,11 @@
 
 # -- Project information -----------------------------------------------------
 
+import os, sys
+
+sys.path.insert(0, os.path.abspath('../..'))
+
+
 project = 'PyMinimax'
 copyright = '2021, beginnerSC'
 author = 'beginnerSC'
