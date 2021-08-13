@@ -51,10 +51,11 @@ PyMinimax has a SciPy-compatible API. Users who are familiar with the `scipy.clu
 
 
 .. toctree::
-   :maxdepth: 1
+   :maxdepth: 2
    :caption: Table of Contents
    
    quick_start
+   api_doc
 
 Reference
 ---------
