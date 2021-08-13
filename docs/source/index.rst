@@ -33,11 +33,6 @@ Welcome to PyMinimax's documentation!
    :alt: Downloads
 
 
-.. image:: https://pepy.tech/badge/pyminimax/month
-   :target: https://pepy.tech/project/pyminimax?versions=0.0.3&versions=0.0.1
-   :alt: Downloads
-
-
 .. image:: https://img.shields.io/badge/License-BSD%203--Clause-orange.svg
    :target: https://github.com/beginnerSC/pyminimax/blob/master/LICENSE
    :alt: License
