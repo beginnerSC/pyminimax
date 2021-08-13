@@ -9,7 +9,9 @@
 [![Downloads](https://pepy.tech/badge/pyminimax/month)](https://pepy.tech/project/pyminimax?versions=0.0.3&versions=0.0.1)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://github.com/beginnerSC/pyminimax/blob/master/LICENSE)
 
-PyMinimax is a python package that performs minimax linkage hierarchical clustering. 
+
+PyMinimax is a Python implementation of Bien and Tibshirani’s paper “Hierarchical Clustering With Prototypes via Minimax Linkage”.
+
 
 ## Installation
 
