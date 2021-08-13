@@ -63,11 +63,13 @@ def condensed_index(n, i, j):
 # def nn_chain(dists, n, method):
 def minimax(dists):
     """Perform minimax linkage on a condensed distance matrix.
+    
     Parameters
     ----------
     dists : ndarray
         The upper triangular of the distance matrix. The result of
         ``pdist`` is returned in this form.
+        
     Returns
     -------
     Z : ndarray
