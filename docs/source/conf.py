@@ -19,7 +19,7 @@
 
 import os, sys
 
-sys.path.insert(0, os.path.abspath('../..'))
+sys.path.insert(0, os.path.abspath('../..'))  # so that autodoc can find module
 
 
 project = 'PyMinimax'
