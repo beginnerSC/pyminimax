@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://github.com/beginnerSC/pyminimax/blob/master/LICENSE)
 
 
-PyMinimax is a Python implementation of Bien and Tibshirani’s paper “Hierarchical Clustering With Prototypes via Minimax Linkage”.
+PyMinimax is a Python implementation of Bien and Tibshirani’s paper [“Hierarchical Clustering With Prototypes via Minimax Linkage”](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4527350/).
 
 
 ## Installation
