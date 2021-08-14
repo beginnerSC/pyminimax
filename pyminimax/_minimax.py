@@ -62,13 +62,13 @@ def condensed_index(n, i, j):
 
 # def nn_chain(dists, n, method):
 def minimax(dists):
-    """Perform minimax linkage on a condensed distance matrix.
+    """Perform minimax-linkage clustering using nearest-neighbor chain algorithm. 
     
     Parameters
     ----------
     dists : ndarray
         The upper triangular of the distance matrix. The result of
-        ``pdist`` is returned in this form.
+        ``scipy.spatial.distance.pdist`` is returned in this form.
         
     Returns
     -------
@@ -77,16 +77,6 @@ def minimax(dists):
         the ``scipy.cluster.hierarchy.linkage`` function documentation for more information
         on its structure.
     """
-#     """Perform hierarchy clustering using nearest-neighbor chain algorithm.
-#     Parameters
-#     ----------
-#     dists : ndarray
-#         A condensed matrix stores the pairwise distances of the observations.
-#     Returns
-#     -------
-#     Z : ndarray, shape (n - 1, 4)
-#         Computed linkage matrix.
-#     """
     n = int((np.sqrt(8*len(dists) + 1) + 1)/2)
 
     Z_arr = np.empty((n - 1, 4))
