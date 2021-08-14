@@ -10,7 +10,7 @@
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://github.com/beginnerSC/pyminimax/blob/master/LICENSE)
 
 
-Python implementation of minimax-linkage hierarchical clustering
+PyMinimax is a Python implementation of minimax-linkage hierarchical clustering. 
 
 ## Installation
 
