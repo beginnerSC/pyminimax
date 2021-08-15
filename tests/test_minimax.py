@@ -15,17 +15,14 @@ class TestMinimax(unittest.TestCase):
         X = np.random.rand(20, 2)
         dists = pdist(X)
 
-        cls.Z1 = minimax(dists, return_prototype=False)
-        cls.Z2 = _minimax_brute_force(dists, return_prototype=False)
-        
         cls.Z1_w_proto = minimax(dists, return_prototype=True)
+        cls.Z1         = minimax(dists, return_prototype=False)
+        
         cls.Z2_w_proto = _minimax_brute_force(dists, return_prototype=True)
+        cls.Z2         = _minimax_brute_force(dists, return_prototype=False)
         
     def test_minimax(self):
-        # test return_prototype=True
         assert_array_equal(self.Z1_w_proto, self.Z2_w_proto)
-        
-        # test return_prototype=False
         assert_array_equal(self.Z1, self.Z2)
         
     def test_return_size(self):
