@@ -49,8 +49,8 @@ PyMinimax has a SciPy-compatible API. Users who are familiar with the `scipy.clu
    :maxdepth: 2
    :caption: Table of Contents
    
-   bug
    quick_start
+   getting_prototypes
    api_ref
 
 Reference
