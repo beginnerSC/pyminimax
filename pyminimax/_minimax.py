@@ -83,7 +83,7 @@ def minimax(dists, return_prototype=False):
         A linkage matrix containing the hierarchical clustering. The first 4 columns has the 
         same structure as the return value of the ``scipy.cluster.hierarchy.linkage`` function. 
         See the documentation for more information on its structure. Depending on the value of 
-        return_prototype there is an optional 5th columns. 
+        ``return_prototype`` there is an optional 5th columns. 
     """
     n = int((np.sqrt(8*len(dists) + 1) + 1)/2)
 
