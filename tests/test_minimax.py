@@ -11,7 +11,20 @@ def test_minimax():
     np.random.seed(0)
     X = np.random.rand(20, 2)
     dists = pdist(X)
-    assert_array_equal(minimax(dists), _minimax_brute_force(dists))
-
+    
+    # test return_prototype=True
+    Z1, prototypes1 = minimax(dists, return_prototype=True)
+    Z2, prototypes2 = _minimax_brute_force(dists, return_prototype=True)
+        
+    assert_array_equal(Z1, Z2)
+    assert_array_equal(prototypes1, prototypes2)
+    
+    # test return_prototype=False
+    Z1 = minimax(dists, return_prototype=False)
+    Z2 = _minimax_brute_force(dists, return_prototype=False)
+    
+    assert_array_equal(Z1, Z2)
+    
+    
 if __name__ == "__main__":
     test_minimax()

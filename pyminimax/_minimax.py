@@ -61,7 +61,7 @@ def condensed_index(n, i, j):
 
 
 # def nn_chain(dists, n, method):
-def minimax(dists):
+def minimax(dists, return_prototype=False):
     """Perform minimax-linkage clustering using nearest-neighbor chain algorithm. 
     
     Parameters
@@ -69,17 +69,26 @@ def minimax(dists):
     dists : ndarray
         The upper triangular of the distance matrix. The result of
         ``scipy.spatial.distance.pdist`` is returned in this form.
-        
+    
+    return_prototype : bool, default False
+        whether to return prototypes. 
+        When this is True, minimax returns a tuple of Z and prototypes. 
+        When this is False it only returns Z. 
+    
     Returns
     -------
     Z : ndarray
         A linkage matrix containing the hierarchical clustering. See
         the ``scipy.cluster.hierarchy.linkage`` function documentation for more information
         on its structure.
+        
+    prototypes : ndarray
+        Indices of prototypes corresponding to each merge in the linkage matrix Z. 
+        Only available if ``return_prototype`` is set to True. 
     """
     n = int((np.sqrt(8*len(dists) + 1) + 1)/2)
 
-    Z_arr = np.empty((n - 1, 4))
+    Z_arr = np.empty((n - 1, 5))
     Z = Z_arr
 
     D = dists.copy()  # Distances between clusters.
@@ -142,16 +151,20 @@ def minimax(dists):
         nx = size[x]
         ny = size[y]
 
+        # merge x and y. Cluster x will be dropped, and y will be replaced with the new cluster
+        indices[y] |= indices[x]
+        indices[x] = set()
+
+        prototype, minmax = min(((j, max(dists[condensed_index(n, j, k)] if j!=k else 0 for k in indices[y])) for j in indices[y]), key=lambda pt_max: pt_max[1])        
+        
         # Record the new node.
         Z[k, 0] = x
         Z[k, 1] = y
         Z[k, 2] = current_min
         Z[k, 3] = nx + ny
+        Z[k, 4] = prototype
         size[x] = 0  # Cluster x will be dropped.
         size[y] = nx + ny  # Cluster y will be replaced with the new cluster
-
-        indices[y] |= indices[x]
-        indices[x] = set()
 
         # Update the distance matrix.
         for i in range(n):
@@ -171,26 +184,36 @@ def minimax(dists):
     # Find correct cluster labels inplace.
     label(Z_arr, n)
 
-    return Z_arr
+    Z_arr, prototypes = Z_arr[:, :4], Z_arr[:, -1]
+    
+    if return_prototype:
+        return Z_arr, prototypes
+    else: 
+        return Z_arr
+    
 
-
-def _minimax_brute_force(dists):
+def _minimax_brute_force(dists, return_prototype=False):
     n = int((np.sqrt(8*len(dists) + 1) + 1)/2)
 
     def d(i, j): return dists[n*i+j-((i+2)*(i+1))//2] if i<j else (0 if i==j else d(j, i))
     def r(i, G): return max(d(i, j) for j in G)
 
-    Z = []
+    Z = np.empty((n-1, 5))
     clusters = {i: set([i]) for i in range(n)}
     for i in range(n-1):
         min_d = np.inf
         for (idxG, G), (idxH, H) in combinations(clusters.items(), 2):
-            dminimax = min(r(x, G|H) for x in G|H)
+            x, dminimax = min(((x, r(x, G|H)) for x in G|H), key=lambda pt_max_d: pt_max_d[1])
             if dminimax < min_d:
                 min_d = dminimax
-                to_merge = [idxG, idxH, dminimax, len(G|H)]
-        Z.append(to_merge)
-        idxG, idxH, _, _ = to_merge
+                to_merge = [idxG, idxH, dminimax, len(G|H), x]
+        Z[i] = to_merge
+        idxG, idxH, _, _, _ = to_merge
         clusters[n+i] = clusters.pop(idxG) | clusters.pop(idxH)
-
-    return Z
+    
+    Z, prototypes = Z[:, :4], Z[:, -1]
+    
+    if return_prototype:
+        return Z, prototypes
+    else: 
+        return Z
