@@ -13,11 +13,10 @@ def test_minimax():
     dists = pdist(X)
     
     # test return_prototype=True
-    Z1, prototypes1 = minimax(dists, return_prototype=True)
-    Z2, prototypes2 = _minimax_brute_force(dists, return_prototype=True)
-        
+    Z1 = minimax(dists, return_prototype=True)
+    Z2 = _minimax_brute_force(dists, return_prototype=True)
+    
     assert_array_equal(Z1, Z2)
-    assert_array_equal(prototypes1, prototypes2)
     
     # test return_prototype=False
     Z1 = minimax(dists, return_prototype=False)

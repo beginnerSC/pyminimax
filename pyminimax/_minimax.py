@@ -72,19 +72,18 @@ def minimax(dists, return_prototype=False):
     
     return_prototype : bool, default False
         whether to return prototypes. 
-        When this is True, minimax returns a tuple of Z and prototypes. 
-        When this is False it only returns Z. 
-    
+        When this is False, the returned linkage matrix Z has 4 columns, structured the same 
+        as the return value of the ``scipy.cluster.hierarchy.linkage`` function. 
+        When this is True, the returned linkage matrix also has the 5th column which contains 
+        the indices of prototypes corresponding to each merge. 
+        
     Returns
     -------
     Z : ndarray
-        A linkage matrix containing the hierarchical clustering. See
-        the ``scipy.cluster.hierarchy.linkage`` function documentation for more information
-        on its structure.
-        
-    prototypes : ndarray
-        Indices of prototypes corresponding to each merge in the linkage matrix Z. 
-        Only available if ``return_prototype`` is set to True. 
+        A linkage matrix containing the hierarchical clustering. The first 4 columns has the 
+        same structure as the return value of the ``scipy.cluster.hierarchy.linkage`` function. 
+        See the documentation for more information on its structure. Depending on the value of 
+        return_prototype there is an optional 5th columns. 
     """
     n = int((np.sqrt(8*len(dists) + 1) + 1)/2)
 
@@ -183,11 +182,9 @@ def minimax(dists, return_prototype=False):
 
     # Find correct cluster labels inplace.
     label(Z_arr, n)
-
-    Z_arr, prototypes = Z_arr[:, :4], Z_arr[:, -1]
     
     if return_prototype:
-        return Z_arr, prototypes
+        return Z_arr[:, :4]
     else: 
         return Z_arr
     
@@ -211,9 +208,7 @@ def _minimax_brute_force(dists, return_prototype=False):
         idxG, idxH, _, _, _ = to_merge
         clusters[n+i] = clusters.pop(idxG) | clusters.pop(idxH)
     
-    Z, prototypes = Z[:, :4], Z[:, -1]
-    
     if return_prototype:
-        return Z, prototypes
+        return Z[:, :4]
     else: 
         return Z
