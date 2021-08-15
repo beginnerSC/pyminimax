@@ -184,9 +184,9 @@ def minimax(dists, return_prototype=False):
     label(Z_arr, n)
     
     if return_prototype:
-        return Z_arr[:, :4]
-    else: 
         return Z_arr
+    else: 
+        return Z_arr[:, :4]
     
 
 def _minimax_brute_force(dists, return_prototype=False):
@@ -209,6 +209,6 @@ def _minimax_brute_force(dists, return_prototype=False):
         clusters[n+i] = clusters.pop(idxG) | clusters.pop(idxH)
     
     if return_prototype:
-        return Z[:, :4]
-    else: 
         return Z
+    else: 
+        return Z[:, :4]
