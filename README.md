@@ -33,4 +33,4 @@ Z_complete = complete(dist)     # complete linkage result
 Z_minimax = minimax(dist)       #  minimax linkage result
 ```
 
-There is only one function in PyMinimax, `pyminimax.minimax`, and its usage is very much similar to the hierarchical clustering methods in SciPy, say [scipy.cluster.hierarchy.complete](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.complete.html). See the [documentation](https://pyminimax.readthedocs.io/en/latest/) for more details. 
+The most important function in PyMinimax is `pyminimax.minimax`. Its usage is very much similar to the hierarchical clustering methods in SciPy, say [scipy.cluster.hierarchy.complete](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.complete.html). See the [documentation](https://pyminimax.readthedocs.io/en/latest/) for more details. 
