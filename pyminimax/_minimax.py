@@ -1,9 +1,12 @@
 import numpy as np
 from itertools import combinations
+from collections import defaultdict
+from scipy.cluster.hierarchy import fcluster
+
 
 # Part of this script is from scipy
 # See _hierarchy.pyx and hierarchy.py in https://github.com/scipy/scipy/blob/master/scipy/cluster/
-# What's new is the key step updating D matrix in the nn chain algorithm, and a _minimax_brute_force function for testing purpose
+# The key step updating D matrix in the nn chain algorithm is changed to minimax
 
 class LinkageUnionFind:
     """Structure for fast cluster labeling in unsorted dendrogram."""
@@ -212,3 +215,118 @@ def _minimax_brute_force(dists, return_prototype=False):
         return Z
     else: 
         return Z[:, :4]
+    
+    
+def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit=None):
+    """
+    Form flat clusters from the hierarchical clustering defined by
+    the given linkage matrix, and the 
+    
+    Parameters
+    ----------
+    Z : ndarray
+        The hierarchical clustering encoded with the matrix returned
+        by the `minimax` function.
+    t : scalar
+        For criteria 'inconsistent', 'distance' or 'monocrit',
+         this is the threshold to apply when forming flat clusters.
+        For 'maxclust' or 'maxclust_monocrit' criteria,
+         this would be max number of clusters requested.
+    criterion : str, optional
+        The criterion to use in forming flat clusters. This can
+        be any of the following values:
+        
+          ``inconsistent`` :
+              If a cluster node and all its
+              descendants have an inconsistent value less than or equal
+              to `t`, then all its leaf descendants belong to the
+              same flat cluster. When no non-singleton cluster meets
+              this criterion, every node is assigned to its own
+              cluster. (Default)
+              
+          ``distance`` :
+              Forms flat clusters so that the original
+              observations in each flat cluster have no greater a
+              cophenetic distance than `t`.
+              
+          ``maxclust`` :
+              Finds a minimum threshold ``r`` so that
+              the cophenetic distance between any two original
+              observations in the same flat cluster is no more than
+              ``r`` and no more than `t` flat clusters are formed.
+              
+          ``monocrit`` :
+              Forms a flat cluster from a cluster node c
+              with index i when ``monocrit[j] <= t``.
+              For example, to threshold on the maximum mean distance
+              as computed in the inconsistency matrix R with a
+              threshold of 0.8 do::
+                  MR = maxRstat(Z, R, 3)
+                  fcluster(Z, t=0.8, criterion='monocrit', monocrit=MR)
+                  
+          ``maxclust_monocrit`` :
+              Forms a flat cluster from a
+              non-singleton cluster node ``c`` when ``monocrit[i] <=
+              r`` for all cluster indices ``i`` below and including
+              ``c``. ``r`` is minimized such that no more than ``t``
+              flat clusters are formed. monocrit must be
+              monotonic. For example, to minimize the threshold t on
+              maximum inconsistency values so that no more than 3 flat
+              clusters are formed, do::
+              
+                  MI = maxinconsts(Z, R)
+                  fcluster(Z, t=3, criterion='maxclust_monocrit', monocrit=MI)
+    depth : int, optional
+        The maximum depth to perform the inconsistency calculation.
+        It has no meaning for the other criteria. Default is 2.
+    R : ndarray, optional
+        The inconsistency matrix to use for the 'inconsistent'
+        criterion. This matrix is computed if not provided.
+    monocrit : ndarray, optional
+        An array of length n-1. `monocrit[i]` is the
+        statistics upon which non-singleton i is thresholded. The
+        monocrit vector must be monotonic, i.e., given a node c with
+        index i, for all node indices j corresponding to nodes
+        below c, ``monocrit[i] >= monocrit[j]``.
+        
+    Returns
+    -------
+    fcluster : ndarray
+        An array of length ``n``. ``T[i]`` is the flat cluster number to
+        which original observation ``i`` belongs.
+    """
+    fclust = fcluster(Z[:, :4], t=t, criterion=criterion, depth=depth, R=R, monocrit=monocrit):
+    idx2clust = dict(enumerate(fclust))     # map from data point index to cluster
+    n = len(fclust)
+
+    clust_dict = defaultdict(set)           # map from cluster to set of indices
+    for idx, clust in enumerate(fclust):
+        clust_dict[clust].add(idx)
+
+    protos = {}
+
+    # if a cluster only contains one point, prototype must be that point, 
+    # in which case update protos and remove all relevant data from idx2clust
+
+    for cidx, cset in clust_dict.copy().items():
+        if len(cset)==1:
+            idx = cset.pop()
+            protos[cidx] = idx
+            idx2clust.pop(idx)
+            clust_dict.pop(cidx)
+
+    # if a cluster has multiple points, the prototype is in the coresponding 5th columns of Z of the lastly merged data point
+    for x, y, _, _, proto in Z:
+        if x < n and x in idx2clust:
+            clust = idx2clust[x]
+            clust_dict[clust].remove(x)
+            if clust_dict[clust] == set([]):
+                protos[clust] = proto
+        if y < n and y in idx2clust:
+            clust = idx2clust[y]
+            clust_dict[clust].remove(y)
+            if clust_dict[clust] == set([]):
+                protos[clust] = proto
+
+from pandas import Series
+Series(protos).to_frame()
