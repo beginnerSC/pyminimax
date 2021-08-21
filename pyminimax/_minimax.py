@@ -291,9 +291,9 @@ def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit
         
     Returns
     -------
-    fcluster : ndarray
-        An array of length ``n``. ``T[i]`` is the flat cluster number to
-        which original observation ``i`` belongs.
+    fcluster_prototype : ndarray
+        An array of shape ``(n, 2)``. ``T[i]`` is the flat cluster number to
+        which original observation ``i`` belongs, and the prototype of this cluster.
     """
     fclust = fcluster(Z[:, :4], t=t, criterion=criterion, depth=depth, R=R, monocrit=monocrit)
     idx2clust = dict(enumerate(fclust))     # map from data point index to cluster
