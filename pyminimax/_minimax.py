@@ -295,7 +295,7 @@ def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit
         An array of length ``n``. ``T[i]`` is the flat cluster number to
         which original observation ``i`` belongs.
     """
-    fclust = fcluster(Z[:, :4], t=t, criterion=criterion, depth=depth, R=R, monocrit=monocrit):
+    fclust = fcluster(Z[:, :4], t=t, criterion=criterion, depth=depth, R=R, monocrit=monocrit)
     idx2clust = dict(enumerate(fclust))     # map from data point index to cluster
     n = len(fclust)
 
@@ -327,6 +327,5 @@ def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit
             clust_dict[clust].remove(y)
             if clust_dict[clust] == set([]):
                 protos[clust] = proto
-
-from pandas import Series
-Series(protos).to_frame()
+                
+    return np.array([(clust, protos[clust]) for clust in fclust])

@@ -5,7 +5,7 @@ from scipy.spatial.distance import pdist
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from pyminimax import minimax, _minimax_brute_force
+from pyminimax import minimax, _minimax_brute_force, fcluster_prototype
 
 
 class TestMinimax(unittest.TestCase):
@@ -29,6 +29,10 @@ class TestMinimax(unittest.TestCase):
         self.assertEqual(self.Z1_w_proto.shape[1], 5)
         self.assertEqual(self.Z1.shape[1], 4)
         
+    def test_fcluster_prototype(self):
+        assert_array_equal(fcluster_prototype(self.Z1_w_proto, t=0.3, criterion='distance'), 
+                           [[2, 11], [3,  1], [3, 1], [2, 11], [1, 19], [3,  1], [2, 11], [5, 7], [4, 8], [1, 19], 
+                            [1, 19], [2, 11], [4, 8], [4,  8], [3,  1], [2, 11], [3,  1], [4, 8], [3, 1], [1, 19]])
         
 if __name__ == '__main__':
     unittest.main()
