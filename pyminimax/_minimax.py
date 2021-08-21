@@ -262,7 +262,7 @@ def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit
               as computed in the inconsistency matrix R with a
               threshold of 0.8 do::
                   MR = maxRstat(Z, R, 3)
-                  fcluster(Z, t=0.8, criterion='monocrit', monocrit=MR)
+                  fcluster_prototype(Z, t=0.8, criterion='monocrit', monocrit=MR)
                   
           ``maxclust_monocrit`` :
               Forms a flat cluster from a
@@ -275,7 +275,7 @@ def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit
               clusters are formed, do::
               
                   MI = maxinconsts(Z, R)
-                  fcluster(Z, t=3, criterion='maxclust_monocrit', monocrit=MI)
+                  fcluster_prototype(Z, t=3, criterion='maxclust_monocrit', monocrit=MI)
     depth : int, optional
         The maximum depth to perform the inconsistency calculation.
         It has no meaning for the other criteria. Default is 2.
