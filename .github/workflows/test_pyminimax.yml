@@ -9,7 +9,7 @@ jobs:
         scipy-version: [1.6, 1.7]
         exclude:
         - python-version: 3.7
-          numpy-version: 1.6
+          scipy-version: 1.6
     runs-on: ${{ matrix.os }}
     steps:
     - name: Clone repo
@@ -29,7 +29,6 @@ jobs:
       run: |
         pip install pytest
         pip install pytest-cov
-        pip install scipy
         pytest -v --cov=pyminimax/ --cov-report=xml
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
