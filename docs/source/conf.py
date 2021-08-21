@@ -27,7 +27,7 @@ copyright = '2021, beginnerSC'
 author = 'beginnerSC'
 
 
-release = '0.0.4'
+release = '0.0.5'
 
 
 # -- General configuration ---------------------------------------------------
