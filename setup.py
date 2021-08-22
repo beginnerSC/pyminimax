@@ -3,18 +3,20 @@ import setuptools
 
 # min version following scipy
 
-np_minversion = '1.16.5'
+numpy_minversion = '1.6.5'
+scipy_minversion = '1.6.0'
 python_minversion = '3.7'
 
-req_np = f'numpy>={np_minversion}'
-req_py = f'>={python_minversion}'
+req_numpy = f'numpy>={numpy_minversion}'
+req_scipy = f'scipy>={scipy_minversion}'
+req_python = f'>={python_minversion}'
 
 with open("README.md", "r") as f:
     long_description = f.read()
 
 setuptools.setup(
     name="pyminimax",
-    version="0.0.4",
+    version="0.1.0",
     author="BeginnerSC",
     url="https://github.com/beginnerSC/pyminimax", 
     description="Python implementation of minimax-linkage hierarchical clustering",
@@ -23,8 +25,8 @@ setuptools.setup(
     keywords=['minimax linkage', 'prototype clustering', 'protoclust', 'hierarchical clustering', 
               'data mining', 'unsupervised learning'], 
     packages=setuptools.find_packages(),
-    install_requires=[req_np],
-    python_requires=req_py,    
+    install_requires=[req_numpy, req_scipy],
+    python_requires=req_python,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
         'Intended Audience :: Developers',

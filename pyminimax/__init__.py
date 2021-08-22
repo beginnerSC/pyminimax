@@ -1,2 +1,2 @@
-__version__= '0.0.4'
-from ._minimax import minimax, _minimax_brute_force
+__version__= '0.1.0'
+from ._minimax import minimax, _minimax_brute_force, fcluster_prototype

@@ -1,9 +1,12 @@
 import numpy as np
 from itertools import combinations
+from collections import defaultdict
+from scipy.cluster.hierarchy import fcluster
+
 
 # Part of this script is from scipy
 # See _hierarchy.pyx and hierarchy.py in https://github.com/scipy/scipy/blob/master/scipy/cluster/
-# What's new is the key step updating D matrix in the nn chain algorithm, and a _minimax_brute_force function for testing purpose
+# The key step updating D matrix in the nn chain algorithm is changed to minimax
 
 class LinkageUnionFind:
     """Structure for fast cluster labeling in unsorted dendrogram."""
@@ -61,7 +64,7 @@ def condensed_index(n, i, j):
 
 
 # def nn_chain(dists, n, method):
-def minimax(dists):
+def minimax(dists, return_prototype=False):
     """Perform minimax-linkage clustering using nearest-neighbor chain algorithm. 
     
     Parameters
@@ -69,17 +72,25 @@ def minimax(dists):
     dists : ndarray
         The upper triangular of the distance matrix. The result of
         ``scipy.spatial.distance.pdist`` is returned in this form.
+    
+    return_prototype : bool, default False
+        whether to return prototypes. 
+        When this is False, the returned linkage matrix Z has 4 columns, structured the same 
+        as the return value of the ``scipy.cluster.hierarchy.linkage`` function. 
+        When this is True, the returned linkage matrix has a 5th column which contains 
+        the indices of the prototypes corresponding to each merge. 
         
     Returns
     -------
     Z : ndarray
-        A linkage matrix containing the hierarchical clustering. See
-        the ``scipy.cluster.hierarchy.linkage`` function documentation for more information
-        on its structure.
+        A linkage matrix containing the hierarchical clustering. The first 4 columns has the 
+        same structure as the return value of the ``scipy.cluster.hierarchy.linkage`` function. 
+        See the documentation for more information on its structure. Depending on the value of 
+        ``return_prototype`` there is an optional 5th columns. 
     """
     n = int((np.sqrt(8*len(dists) + 1) + 1)/2)
 
-    Z_arr = np.empty((n - 1, 4))
+    Z_arr = np.empty((n - 1, 5))
     Z = Z_arr
 
     D = dists.copy()  # Distances between clusters.
@@ -142,16 +153,20 @@ def minimax(dists):
         nx = size[x]
         ny = size[y]
 
+        # merge x and y. Cluster x will be dropped, and y will be replaced with the new cluster
+        indices[y] |= indices[x]
+        indices[x] = set()
+
+        prototype, minmax = min(((j, max(dists[condensed_index(n, j, k)] if j!=k else 0 for k in indices[y])) for j in indices[y]), key=lambda pt_max: pt_max[1])        
+        
         # Record the new node.
         Z[k, 0] = x
         Z[k, 1] = y
         Z[k, 2] = current_min
         Z[k, 3] = nx + ny
+        Z[k, 4] = prototype
         size[x] = 0  # Cluster x will be dropped.
         size[y] = nx + ny  # Cluster y will be replaced with the new cluster
-
-        indices[y] |= indices[x]
-        indices[x] = set()
 
         # Update the distance matrix.
         for i in range(n):
@@ -170,27 +185,147 @@ def minimax(dists):
 
     # Find correct cluster labels inplace.
     label(Z_arr, n)
+    
+    if return_prototype:
+        return Z_arr
+    else: 
+        return Z_arr[:, :4]
+    
 
-    return Z_arr
-
-
-def _minimax_brute_force(dists):
+def _minimax_brute_force(dists, return_prototype=False):
     n = int((np.sqrt(8*len(dists) + 1) + 1)/2)
 
     def d(i, j): return dists[n*i+j-((i+2)*(i+1))//2] if i<j else (0 if i==j else d(j, i))
     def r(i, G): return max(d(i, j) for j in G)
 
-    Z = []
+    Z = np.empty((n-1, 5))
     clusters = {i: set([i]) for i in range(n)}
     for i in range(n-1):
         min_d = np.inf
         for (idxG, G), (idxH, H) in combinations(clusters.items(), 2):
-            dminimax = min(r(x, G|H) for x in G|H)
+            x, dminimax = min(((x, r(x, G|H)) for x in G|H), key=lambda pt_max_d: pt_max_d[1])
             if dminimax < min_d:
                 min_d = dminimax
-                to_merge = [idxG, idxH, dminimax, len(G|H)]
-        Z.append(to_merge)
-        idxG, idxH, _, _ = to_merge
+                to_merge = [idxG, idxH, dminimax, len(G|H), x]
+        Z[i] = to_merge
+        idxG, idxH, _, _, _ = to_merge
         clusters[n+i] = clusters.pop(idxG) | clusters.pop(idxH)
+    
+    if return_prototype:
+        return Z
+    else: 
+        return Z[:, :4]
+    
+    
+def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit=None):
+    """
+    Form flat clusters from the hierarchical clustering defined by
+    the given linkage matrix, and the 
+    
+    Parameters
+    ----------
+    Z : ndarray
+        The hierarchical clustering encoded with the matrix returned
+        by the `minimax` function.
+    t : scalar
+        For criteria 'inconsistent', 'distance' or 'monocrit',
+         this is the threshold to apply when forming flat clusters.
+        For 'maxclust' or 'maxclust_monocrit' criteria,
+         this would be max number of clusters requested.
+    criterion : str, optional
+        The criterion to use in forming flat clusters. This can
+        be any of the following values:
+        
+          ``inconsistent`` :
+              If a cluster node and all its
+              descendants have an inconsistent value less than or equal
+              to `t`, then all its leaf descendants belong to the
+              same flat cluster. When no non-singleton cluster meets
+              this criterion, every node is assigned to its own
+              cluster. (Default)
+              
+          ``distance`` :
+              Forms flat clusters so that the original
+              observations in each flat cluster have no greater a
+              cophenetic distance than `t`.
+              
+          ``maxclust`` :
+              Finds a minimum threshold ``r`` so that
+              the cophenetic distance between any two original
+              observations in the same flat cluster is no more than
+              ``r`` and no more than `t` flat clusters are formed.
+              
+          ``monocrit`` :
+              Forms a flat cluster from a cluster node c
+              with index i when ``monocrit[j] <= t``.
+              For example, to threshold on the maximum mean distance
+              as computed in the inconsistency matrix R with a
+              threshold of 0.8 do::
+                  MR = maxRstat(Z, R, 3)
+                  fcluster_prototype(Z, t=0.8, criterion='monocrit', monocrit=MR)
+                  
+          ``maxclust_monocrit`` :
+              Forms a flat cluster from a
+              non-singleton cluster node ``c`` when ``monocrit[i] <=
+              r`` for all cluster indices ``i`` below and including
+              ``c``. ``r`` is minimized such that no more than ``t``
+              flat clusters are formed. monocrit must be
+              monotonic. For example, to minimize the threshold t on
+              maximum inconsistency values so that no more than 3 flat
+              clusters are formed, do::
+              
+                  MI = maxinconsts(Z, R)
+                  fcluster_prototype(Z, t=3, criterion='maxclust_monocrit', monocrit=MI)
+    depth : int, optional
+        The maximum depth to perform the inconsistency calculation.
+        It has no meaning for the other criteria. Default is 2.
+    R : ndarray, optional
+        The inconsistency matrix to use for the 'inconsistent'
+        criterion. This matrix is computed if not provided.
+    monocrit : ndarray, optional
+        An array of length n-1. `monocrit[i]` is the
+        statistics upon which non-singleton i is thresholded. The
+        monocrit vector must be monotonic, i.e., given a node c with
+        index i, for all node indices j corresponding to nodes
+        below c, ``monocrit[i] >= monocrit[j]``.
+        
+    Returns
+    -------
+    fcluster_prototype : ndarray
+        An array of shape ``(n, 2)``. ``T[i]`` is the flat cluster number to
+        which original observation ``i`` belongs, and the index of the prototype of this cluster.
+    """
+    fclust = fcluster(Z[:, :4], t=t, criterion=criterion, depth=depth, R=R, monocrit=monocrit)
+    idx2clust = dict(enumerate(fclust))     # map from data point index to cluster
+    n = len(fclust)
 
-    return Z
+    clust_dict = defaultdict(set)           # map from cluster to set of indices
+    for idx, clust in enumerate(fclust):
+        clust_dict[clust].add(idx)
+
+    protos = {}
+
+    # if a cluster only contains one point, prototype must be that point, 
+    # in which case update protos and remove all relevant data from idx2clust
+
+    for cidx, cset in clust_dict.copy().items():
+        if len(cset)==1:
+            idx = cset.pop()
+            protos[cidx] = idx
+            idx2clust.pop(idx)
+            clust_dict.pop(cidx)
+
+    # if a cluster has multiple points, the prototype is in the coresponding 5th columns of Z of the lastly merged data point
+    for x, y, _, _, proto in Z:
+        if x < n and x in idx2clust:
+            clust = idx2clust[x]
+            clust_dict[clust].remove(x)
+            if clust_dict[clust] == set([]):
+                protos[clust] = proto
+        if y < n and y in idx2clust:
+            clust = idx2clust[y]
+            clust_dict[clust].remove(y)
+            if clust_dict[clust] == set([]):
+                protos[clust] = proto
+                
+    return np.array([(clust, protos[clust]) for clust in fclust])

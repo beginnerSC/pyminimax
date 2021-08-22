@@ -5,8 +5,8 @@
 [![build](https://github.com/beginnerSC/pyminimax/actions/workflows/test_pyminimax.yml/badge.svg)](https://github.com/beginnerSC/pyminimax/actions/workflows/test_pyminimax.yml) 
 [![codecov](https://codecov.io/gh/beginnerSC/pyminimax/branch/master/graph/badge.svg?token=BEE3HCNNJD)](https://codecov.io/gh/beginnerSC/pyminimax)
 [![image](http://img.shields.io/pypi/v/pyminimax.svg)](https://pypi.python.org/pypi/pyminimax/)
-[![Downloads](https://pepy.tech/badge/pyminimax)](https://pepy.tech/project/pyminimax?versions=0.0.1&versions=0.0.3&versions=0.0.4)
-[![Downloads](https://pepy.tech/badge/pyminimax/month)](https://pepy.tech/project/pyminimax?versions=0.0.1&versions=0.0.3&versions=0.0.4)
+[![Downloads](https://pepy.tech/badge/pyminimax)](https://pepy.tech/project/pyminimax?versions=0.0.3&versions=0.0.4&versions=0.1.0)
+[![Downloads](https://pepy.tech/badge/pyminimax/month)](https://pepy.tech/project/pyminimax?versions=0.0.3&versions=0.0.4&versions=0.1.0)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://github.com/beginnerSC/pyminimax/blob/master/LICENSE)
 
 
@@ -33,4 +33,4 @@ Z_complete = complete(dist)     # complete linkage result
 Z_minimax = minimax(dist)       #  minimax linkage result
 ```
 
-There is only one function in PyMinimax, `pyminimax.minimax`, and its usage is very much similar to the hierarchical clustering methods in SciPy, say [scipy.cluster.hierarchy.complete](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.complete.html). See the [documentation](https://pyminimax.readthedocs.io/en/latest/) for more details. 
+The most important function in PyMinimax is `pyminimax.minimax`. Its usage is very much similar to the hierarchical clustering methods in SciPy, say [scipy.cluster.hierarchy.complete](https://docs.scipy.org/doc/scipy/reference/generated/scipy.cluster.hierarchy.complete.html). See the [documentation](https://pyminimax.readthedocs.io/en/latest/) for more details. 

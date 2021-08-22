@@ -29,7 +29,7 @@ Welcome to PyMinimax's documentation!
 
 
 .. image:: https://pepy.tech/badge/pyminimax
-   :target: https://pepy.tech/project/pyminimax?versions=0.0.1&versions=0.0.3&versions=0.0.4
+   :target: https://pepy.tech/project/pyminimax?versions=0.0.3&versions=0.0.4&versions=0.1.0
    :alt: Downloads
 
 
@@ -40,7 +40,8 @@ Welcome to PyMinimax's documentation!
 ----
 
 PyMinimax is a Python implementation of Bien and Tibshirani's paper “Hierarchical Clustering With Prototypes via Minimax Linkage”[#bien2011hierarchical]_. 
-This is an agglomerative hierarchical clustering algorithm that is not currently available in SciPy nor scikit-learn. It has a great advantage over classical hierarchical clustering methods that in each cluster one prototype is selected from the original data. Thus the results are better interpretable. 
+This is an agglomerative hierarchical clustering algorithm available in the protoclust R package [#bien2015package]_ but not currently in SciPy nor scikit-learn. 
+It has a great advantage over classical hierarchical clustering methods that in each cluster one prototype is selected from the original data. Thus the results are better interpretable. 
 
 PyMinimax has a SciPy-compatible API. Users who are familiar with the `scipy.cluster.hierarchy <https://docs.scipy.org/doc/scipy/reference/cluster.hierarchy.html>`_ module will find it easy to use. 
 
@@ -56,4 +57,5 @@ Reference
 ---------
 
 .. [#bien2011hierarchical] \J. Bien and R. Tibshirani. Hierarchical clustering with prototypes via minimax linkage. Journal of the American Statistical Association, 106(495), 2011, 1075-1084. 
+.. [#bien2015package] \J. Bien and R. Tibshirani. Package ‘protoclust’, 2015. 
 
