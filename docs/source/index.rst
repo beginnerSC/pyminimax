@@ -50,7 +50,6 @@ PyMinimax has a SciPy-compatible API. Users who are familiar with the `scipy.clu
    :caption: Table of Contents
    
    quick_start
-   getting_prototypes
    api_ref
 
 Reference
