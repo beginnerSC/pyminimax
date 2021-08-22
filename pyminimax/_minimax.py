@@ -77,8 +77,8 @@ def minimax(dists, return_prototype=False):
         whether to return prototypes. 
         When this is False, the returned linkage matrix Z has 4 columns, structured the same 
         as the return value of the ``scipy.cluster.hierarchy.linkage`` function. 
-        When this is True, the returned linkage matrix also has the 5th column which contains 
-        the indices of prototypes corresponding to each merge. 
+        When this is True, the returned linkage matrix has a 5th column which contains 
+        the indices of the prototypes corresponding to each merge. 
         
     Returns
     -------
