@@ -1,5 +1,6 @@
 import sys, os, unittest
 import numpy as np
+from numpy import dtype
 from numpy.testing import assert_array_equal
 from scipy.spatial.distance import pdist
 
@@ -30,7 +31,9 @@ class TestMinimax(unittest.TestCase):
         self.assertEqual(self.Z1.shape[1], 4)
         
     def test_fcluster_prototype(self):
-        assert_array_equal(fcluster_prototype(self.Z1_w_proto, t=0.3, criterion='distance'), 
+        clust_proto = fcluster_prototype(self.Z1_w_proto, t=0.3, criterion='distance')
+        self.assertEqual(clust_proto.dtype, dtype('int32'))
+        assert_array_equal(clust_proto, 
                            [[2, 11], [3,  1], [3, 1], [2, 11], [1, 19], [3,  1], [2, 11], [5, 7], [4, 8], [1, 19], 
                             [1, 19], [2, 11], [4, 8], [4,  8], [3,  1], [2, 11], [3,  1], [4, 8], [3, 1], [1, 19]])
         
