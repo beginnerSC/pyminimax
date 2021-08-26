@@ -328,4 +328,4 @@ def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit
             if clust_dict[clust] == set([]):
                 protos[clust] = proto
                 
-    return np.array([(clust, protos[clust]) for clust in fclust])
+    return np.array([(clust, protos[clust]) for clust in fclust], dtype='int32')
