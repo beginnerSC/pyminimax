@@ -296,11 +296,16 @@ def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit
         which original observation ``i`` belongs, and the index of the prototype of this cluster.
     """
     fclust = fcluster(Z[:, :4], t=t, criterion=criterion, depth=depth, R=R, monocrit=monocrit)
-    idx2clust = dict(enumerate(fclust))     # map from data point index to cluster
-    n = len(fclust)
 
-    clust_dict = defaultdict(set)           # map from cluster to set of indices
-    for idx, clust in enumerate(fclust):
+    idx2clust = dict(enumerate(fclust))     # map from data point and subclust index to cluster
+    n_clust = len(np.unique(fclust))
+    n = len(fclust)
+    for idx, (x, y, _, _, clust) in enumerate(Z[:-(n_clust - 1)]):
+        clust = idx2clust.get(x) or idx2clust.get(y)
+        idx2clust[idx+n] = idx2clust[y] = idx2clust[x] = clust
+
+    clust_dict = defaultdict(set)           # map from cluster to set of indices of data points and subclusts
+    for idx, clust in idx2clust.items():
         clust_dict[clust].add(idx)
 
     protos = {}
@@ -315,17 +320,14 @@ def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit
             idx2clust.pop(idx)
             clust_dict.pop(cidx)
 
-    # if a cluster has multiple points, the prototype is in the coresponding 5th columns of Z of the lastly merged data point
-    for x, y, _, _, proto in Z:
-        if x < n and x in idx2clust:
-            clust = idx2clust[x]
-            clust_dict[clust].remove(x)
-            if clust_dict[clust] == set([]):
-                protos[clust] = proto
-        if y < n and y in idx2clust:
-            clust = idx2clust[y]
-            clust_dict[clust].remove(y)
-            if clust_dict[clust] == set([]):
-                protos[clust] = proto
-                
+    # if a cluster has multiple points, the prototype is in the coresponding 5th column of Z of the last merge
+    # after the last merge the cluster only has one index -- the index of itself
+
+    for x, y, _, _, proto in Z[:-(n_clust - 1)]:
+        clust = idx2clust[x]
+        clust_dict[clust].remove(x)
+        clust_dict[clust].remove(y)
+        if len(clust_dict[clust]) == 1:
+            protos[clust] = proto
+
     return np.array([(clust, protos[clust]) for clust in fclust], dtype='int32')
