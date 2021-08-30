@@ -37,5 +37,12 @@ class TestMinimax(unittest.TestCase):
                            [[2, 11], [3,  1], [3, 1], [2, 11], [1, 19], [3,  1], [2, 11], [5, 7], [4, 8], [1, 19], 
                             [1, 19], [2, 11], [4, 8], [4,  8], [3,  1], [2, 11], [3,  1], [4, 8], [3, 1], [1, 19]])
         
+        clust_proto = fcluster_prototype(self.Z1_w_proto, t=0.7, criterion='distance')
+        self.assertEqual(clust_proto.dtype, dtype('int32'))
+        assert_array_equal(clust_proto, 
+                           [[2, 11], [3,  1], [3, 1], [2, 11], [1, 19], [3,  1], [2, 11], [5, 7], [4, 8], [1, 19], 
+                            [1, 19], [2, 11], [4, 8], [4,  8], [3,  1], [2, 11], [3,  1], [4, 8], [3, 1], [1, 19]])
+
+
 if __name__ == '__main__':
     unittest.main()
