@@ -300,7 +300,7 @@ def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit
     idx2clust = dict(enumerate(fclust))     # map from data point and subclust index to cluster
     n_clust = len(np.unique(fclust))
     n = len(fclust)
-    Z = Z[: n - n_clust + 1]                # only the first n - n_clust + 1 rows matter
+    Z = Z[: n-n_clust]                      # only the first n-n_clust rows matter
 
     for idx, (x, y, _, _, clust) in enumerate(Z):
         clust = idx2clust.get(x) or idx2clust.get(y)
@@ -323,7 +323,7 @@ def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit
             clust_dict.pop(cidx)
 
     # if a cluster has multiple points, the prototype is in the coresponding 5th column of Z of the last merge
-    # after the last merge the cluster only has one index -- the index of itself
+    # after the last merge the cluster only contains one index -- the index of itself
 
     for x, y, _, _, proto in Z:
         clust = idx2clust[x]
