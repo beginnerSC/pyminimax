@@ -29,7 +29,7 @@ Welcome to PyMinimax's documentation!
 
 
 .. image:: https://pepy.tech/badge/pyminimax
-   :target: https://pepy.tech/project/pyminimax?versions=0.0.4&versions=0.1.0&versions=0.1.1
+   :target: https://pepy.tech/project/pyminimax?versions=0.1.0&versions=0.1.1&versions=0.1.2
    :alt: Downloads
 
 
