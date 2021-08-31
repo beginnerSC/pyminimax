@@ -4,7 +4,7 @@
 [![Documentation Status](https://readthedocs.org/projects/pyminimax/badge/?version=latest)](https://pyminimax.readthedocs.io/en/latest/?badge=latest)
 [![build](https://github.com/beginnerSC/pyminimax/actions/workflows/test_pyminimax.yml/badge.svg)](https://github.com/beginnerSC/pyminimax/actions/workflows/test_pyminimax.yml) 
 [![codecov](https://codecov.io/gh/beginnerSC/pyminimax/branch/master/graph/badge.svg?token=BEE3HCNNJD)](https://codecov.io/gh/beginnerSC/pyminimax)
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/beginnerSC/pyminimax/tree/dev/HEAD)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/beginnerSC/pyminimax/tree/dev)
 [![image](http://img.shields.io/pypi/v/pyminimax.svg)](https://pypi.python.org/pypi/pyminimax/)
 [![Downloads](https://pepy.tech/badge/pyminimax)](https://pepy.tech/project/pyminimax?versions=0.1.0&versions=0.1.1&versions=0.1.2)
 [![Downloads](https://pepy.tech/badge/pyminimax/month)](https://pepy.tech/project/pyminimax?versions=0.1.0&versions=0.1.1&versions=0.1.2)
