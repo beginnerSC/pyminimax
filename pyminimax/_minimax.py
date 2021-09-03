@@ -261,7 +261,7 @@ def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit
               For example, to threshold on the maximum mean distance
               as computed in the inconsistency matrix R with a
               threshold of 0.8 do::
-                  MR = maxRstat(Z, R, 3)
+                  MR = maxRstat(Z[:, :4], R, 3)
                   fcluster_prototype(Z, t=0.8, criterion='monocrit', monocrit=MR)
                   
           ``maxclust_monocrit`` :
@@ -274,7 +274,7 @@ def fcluster_prototype(Z, t, criterion='inconsistent', depth=2, R=None, monocrit
               maximum inconsistency values so that no more than 3 flat
               clusters are formed, do::
               
-                  MI = maxinconsts(Z, R)
+                  MI = maxinconsts(Z[:, :4], R)
                   fcluster_prototype(Z, t=3, criterion='maxclust_monocrit', monocrit=MI)
     depth : int, optional
         The maximum depth to perform the inconsistency calculation.
