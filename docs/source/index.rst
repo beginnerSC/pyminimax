@@ -52,7 +52,7 @@ PyMinimax has a SciPy-compatible API. Users who are familiar with the `scipy.clu
    :caption: Table of Contents
    
    quick_start
-   more_examples
+   examples
    api_ref
 
 Reference
