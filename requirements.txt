@@ -24,5 +24,7 @@ numpy
 scipy
 pandas
 matplotlib
+seaborn
+scikit-learn 
 pytest
 pytest-cov
