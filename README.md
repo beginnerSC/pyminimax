@@ -5,8 +5,8 @@
 [![build](https://github.com/beginnerSC/pyminimax/actions/workflows/test_pyminimax.yml/badge.svg)](https://github.com/beginnerSC/pyminimax/actions/workflows/test_pyminimax.yml) 
 [![codecov](https://codecov.io/gh/beginnerSC/pyminimax/branch/master/graph/badge.svg?token=BEE3HCNNJD)](https://codecov.io/gh/beginnerSC/pyminimax)
 [![PyPI](http://img.shields.io/pypi/v/pyminimax.svg)](https://pypi.python.org/pypi/pyminimax/)
-[![Downloads](https://pepy.tech/badge/pyminimax)](https://pepy.tech/project/pyminimax?versions=0.1.0&versions=0.1.1&versions=0.1.2)
-[![Downloads](https://pepy.tech/badge/pyminimax/month)](https://pepy.tech/project/pyminimax?versions=0.1.0&versions=0.1.1&versions=0.1.2)
+[![Downloads](https://static.pepy.tech/badge/pyminimax)](https://pepy.tech/project/pyminimax?versions=0.1.0&versions=0.1.1&versions=0.1.2)
+[![Downloads](https://static.pepy.tech/badge/pyminimax/month)](https://pepy.tech/project/pyminimax?versions=0.1.0&versions=0.1.1&versions=0.1.2)
 [![License](https://img.shields.io/badge/License-BSD%203--Clause-orange.svg)](https://github.com/beginnerSC/pyminimax/blob/master/LICENSE)
 
 
